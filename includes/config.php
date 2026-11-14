@@ -1,0 +1,133 @@
+<?php
+/**
+ * Prime Care Health Solutions — site configuration
+ * Edit the values below to update contact details site-wide.
+ */
+/* Read a setting from environment variables (Railway → Variables), falling back to the default given here. */
+function env(string $k, $default = '') { $v = getenv($k); return ($v === false || $v === '') ? $default : $v; }
+
+// Behind Railway's (or any) proxy, trust X-Forwarded-Proto so HTTPS is detected correctly
+if (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https') { $_SERVER['HTTPS'] = 'on'; }
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_set_cookie_params(['httponly' => true, 'samesite' => 'Lax', 'secure' => !empty($_SERVER['HTTPS'])]);
+    session_start();
+}
+date_default_timezone_set('America/New_York');
+
+define('SITE_NAME', 'Prime Care Health Solutions');
+define('SITE_SHORT', 'PrimeCare');
+define('SITE_TAGLINE', 'Your Health. Our Priority. Always.');
+define('SITE_URL',   rtrim(env('SITE_URL', 'https://www.primecarehealthsolutions.online'), '/'));
+define('SITE_EMAIL', env('SITE_EMAIL', 'info@primecarehealthsolutions.online')); // where form notifications are sent
+
+/* Email notifications
+ *   MAIL_DRIVER = resend  → Resend HTTPS API (works on ALL Railway plans)  needs RESEND_API_KEY + MAIL_FROM
+ *                 smtp    → SMTP server (Railway Pro plan only)            needs SMTP_HOST/PORT/USER/PASS + MAIL_FROM
+ *                 mail    → PHP mail() (cPanel / shared hosting)
+ *                 none    → no emails (submissions are still saved in the admin panel)
+ * Default: "resend" if RESEND_API_KEY is set, "mail" on normal hosting, otherwise "none". */
+define('MAIL_DRIVER', env('MAIL_DRIVER', env('RESEND_API_KEY') ? 'resend' : (getenv('RAILWAY_ENVIRONMENT') ? 'none' : 'mail')));
+define('MAIL_FROM', env('MAIL_FROM', 'no-reply@' . preg_replace('/^www\./', '', parse_url(SITE_URL, PHP_URL_HOST) ?: 'localhost')));
+
+/* Database: on Railway, mount a Volume and set DATA_DIR to its mount path (default /data in the Docker image) */
+define('DATA_DIR', rtrim(env('DATA_DIR', __DIR__ . '/../data'), '/'));
+define('DB_PATH', DATA_DIR . '/primecare.sqlite');
+
+$LOCATIONS = [
+    'atlanta' => [
+        'name'    => 'Atlanta Head Office',
+        'short'   => 'Atlanta',
+        'state'   => 'Georgia',
+        'badge'   => 'Head Office',
+        'street'  => '1000 Peachtree Business Avenue',
+        'city'    => 'Atlanta, GA 00000',
+        'phone'   => '+1 (943) 206-0409',
+        'tel'     => '+19432060409',
+        'hours'   => 'Mon–Fri 8:00am–6:00pm · Sat 9:00am–2:00pm',
+    ],
+    'florida' => [
+        'name'    => 'PrimeCare Health Solutions – Florida',
+        'short'   => 'Miami',
+        'state'   => 'Florida',
+        'badge'   => 'Branch 01',
+        'street'  => '2500 Sunshine Boulevard',
+        'city'    => 'Miami, FL 00000',
+        'phone'   => '+1 (786) 887-7024',
+        'tel'     => '+17868877024',
+        'hours'   => 'Mon–Fri 8:00am–6:00pm · Sat 9:00am–2:00pm',
+    ],
+    'california' => [
+        'name'    => 'PrimeCare Health Solutions – California',
+        'short'   => 'Los Angeles',
+        'state'   => 'California',
+        'badge'   => 'Branch 02',
+        'street'  => '1800 Pacific Healthcare Drive',
+        'city'    => 'Los Angeles, CA 00000',
+        'phone'   => '+1 (301) 464-4739',
+        'tel'     => '+13014644739',
+        'hours'   => 'Mon–Fri 8:00am–6:00pm · Sat 9:00am–2:00pm',
+    ],
+    'texas' => [
+        'name'    => 'PrimeCare Health Solutions – Texas',
+        'short'   => 'Houston',
+        'state'   => 'Texas',
+        'badge'   => 'Branch 03',
+        'street'  => '3500 Lone Star Medical Parkway',
+        'city'    => 'Houston, TX 00000',
+        'phone'   => '+1 (713) 555-0148',
+        'tel'     => '+17135550148',
+        'hours'   => 'Mon–Fri 8:00am–6:00pm · Sat 9:00am–2:00pm',
+    ],
+];
+
+$SERVICES = [
+    'primary-care' => [
+        'title' => 'Primary & Family Medicine',
+        'icon'  => 'stethoscope',
+        'short' => 'Everyday care for every age — check-ups, diagnosis and ongoing treatment from a team that knows you.',
+        'points'=> ['Annual physicals & wellness visits', 'Acute illness & minor injury care', 'Care plans for the whole family'],
+    ],
+    'preventive' => [
+        'title' => 'Preventive Care & Screenings',
+        'icon'  => 'shield',
+        'short' => 'Catch problems early and stay ahead of them with screenings, immunisations and lifestyle guidance.',
+        'points'=> ['Health risk assessments', 'Immunisations & vaccinations', 'Routine screening programmes'],
+    ],
+    'pharmacy' => [
+        'title' => 'Pharmaceutical Services',
+        'icon'  => 'pill',
+        'short' => 'Prescriptions handled with care, plus medication reviews and clear guidance from our pharmacy team.',
+        'points'=> ['Prescription fulfilment & refills', 'Medication reviews & counselling', 'Coordination with your physician'],
+    ],
+    'diagnostics' => [
+        'title' => 'Diagnostics & Laboratory',
+        'icon'  => 'microscope',
+        'short' => 'Accurate, timely testing that gives your care team — and you — the clarity needed to act.',
+        'points'=> ['Laboratory testing', 'Diagnostic referrals', 'Results explained in plain language'],
+    ],
+    'chronic' => [
+        'title' => 'Chronic Care Management',
+        'icon'  => 'heart',
+        'short' => 'Long-term support for ongoing conditions, with structured follow-ups and a plan built around your life.',
+        'points'=> ['Personalised care plans', 'Regular monitoring & follow-ups', 'Specialist coordination'],
+    ],
+    'womens' => [
+        'title' => "Women's Health",
+        'icon'  => 'flower',
+        'short' => 'Compassionate, confidential care through every stage of life, from routine visits to specialised needs.',
+        'points'=> ['Well-woman examinations', 'Reproductive health guidance', 'Referrals to specialists'],
+    ],
+    'pediatrics' => [
+        'title' => 'Pediatric Care',
+        'icon'  => 'child',
+        'short' => 'Gentle, attentive care for infants, children and teens — and reassurance for the parents who love them.',
+        'points'=> ['Well-child visits', 'Childhood immunisations', 'Growth & development checks'],
+    ],
+    'coordination' => [
+        'title' => 'Patient Support & Care Coordination',
+        'icon'  => 'hands',
+        'short' => 'A dedicated team that helps you navigate appointments, referrals and next steps — so nothing falls through.',
+        'points'=> ['Referral & appointment coordination', 'Insurance & billing guidance', 'Health education resources'],
+    ],
+];

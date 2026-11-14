@@ -1,0 +1,5 @@
+.git
+*.zip
+data/*.sqlite*
+README.txt
+.DS_Store
