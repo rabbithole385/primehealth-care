@@ -12,14 +12,14 @@ require __DIR__ . '/includes/page-hero.php';
       <p class="eyebrow">Our story</p>
       <h2>Where it began</h2>
       <div class="side-card">
-        <p><strong>Founded by</strong><br>Isaiah Washington</p>
+        <p><strong>Founder &amp; CEO</strong><br>Dr. Isaiah Washington</p>
         <p><strong>Head office</strong><br>Atlanta, Georgia</p>
         <p><strong>Branches</strong><br>Miami · Los Angeles · Houston</p>
         <a class="btn btn--outline btn--sm" href="<?= url('founder.php') ?>">Meet our founder <?= icon('arrow', 16) ?></a>
       </div>
     </aside>
     <div class="prose reveal">
-      <p class="dropcap">Prime Care Health Solutions was founded by Isaiah Washington, a highly respected medical professional whose passion for healthcare, dedication to human well-being, and belief in accessible, quality medical services inspired the establishment of an institution built around one fundamental principle: every life deserves exceptional care.</p>
+      <p class="dropcap">Prime Care Health Solutions was founded by Dr. Isaiah Washington, a highly respected medical professional whose passion for healthcare, dedication to human well-being, and belief in accessible, quality medical services inspired the establishment of an institution built around one fundamental principle: every life deserves exceptional care.</p>
       <p>The story of Prime Care Health Solutions began with a vision to redefine the healthcare experience by bringing together medical excellence, compassionate service, innovation, and a patient-first philosophy. Recognizing the importance of a healthcare institution that treats people with dignity while maintaining the highest standards of medical practice, Isaiah Washington set out to build more than just a hospital. He envisioned a trusted healthcare destination where individuals and families could find quality treatment, professional guidance, and reassurance at every stage of their healthcare journey.</p>
       <p>From that vision emerged Prime Care Health Solutions, an institution committed to delivering comprehensive healthcare services through a combination of experienced medical professionals, modern healthcare practices, and a culture centered on compassion and responsibility.</p>
       <blockquote class="pull">True healthcare is not simply about treating illnesses but also about protecting lives, promoting wellness, and helping communities build healthier futures.</blockquote>

@@ -117,7 +117,7 @@ require __DIR__ . '/includes/header.php';
     <div class="split__copy reveal">
       <p class="eyebrow">A legacy of care</p>
       <h2>More than a hospital — a trusted healthcare destination</h2>
-      <p>Prime Care Health Solutions was founded by <strong>Isaiah Washington</strong>, a respected medical professional who believed quality care should treat people with dignity while holding to the highest standards of medical practice.</p>
+      <p>Prime Care Health Solutions was founded by <strong>Dr. Isaiah Washington</strong>, a respected medical professional who believed quality care should treat people with dignity while holding to the highest standards of medical practice.</p>
       <p>Today we extend that commitment beyond hospital-based treatment to preventive care, pharmaceutical services, health education, patient support and coordinated medical solutions.</p>
       <ul class="ticks">
         <li><?= icon('check', 18) ?> Experienced medical professionals</li>
@@ -169,11 +169,11 @@ require __DIR__ . '/includes/header.php';
 
 <section class="section">
   <div class="wrap founder-teaser reveal">
-    <div class="founder-teaser__mono" aria-hidden="true"><span>IW</span></div>
+    <div class="founder-teaser__mono"><img src="assets/img/founder.jpg" alt="Dr. Isaiah Washington"></div>
     <figure>
       <span class="founder-teaser__q"><?= icon('quote', 34) ?></span>
       <blockquote>Healthcare is not simply about treating an illness; it is about understanding a human being, restoring hope, preserving dignity, and making a meaningful difference in someone's life.</blockquote>
-      <figcaption><strong>Isaiah Washington</strong><span>Founder &amp; Visionary Leader</span></figcaption>
+      <figcaption><strong>Dr. Isaiah Washington</strong><span>Founder &amp; Chief Executive Officer</span></figcaption>
       <a class="btn btn--outline" href="<?= url('founder.php') ?>">Meet our founder <?= icon('arrow', 18) ?></a>
     </figure>
   </div>

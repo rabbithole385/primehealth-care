@@ -1,7 +1,7 @@
 <?php
 $active = 'founder';
-$page_title = 'Meet Our Founder — Isaiah Washington';
-$page_desc = 'Isaiah Washington, Founder & Visionary Leader of Prime Care Health Solutions. A life dedicated to healing, a legacy built on compassion.';
+$page_title = 'Meet Our Founder — Dr. Isaiah Washington';
+$page_desc = 'Dr. Isaiah Washington, Founder & Chief Executive Officer of Prime Care Health Solutions. A life dedicated to healing, a legacy built on compassion.';
 require __DIR__ . '/includes/header.php';
 $hero = ['eyebrow' => 'Meet our founder', 'title' => 'A Life Dedicated to Healing.<br><em>A Legacy Built on Compassion.</em>', 'lead' => '', 'crumb' => 'Our Founder'];
 require __DIR__ . '/includes/page-hero.php';
@@ -9,12 +9,11 @@ require __DIR__ . '/includes/page-hero.php';
 <section class="section founder">
   <div class="wrap founder__grid">
     <aside class="founder__card reveal">
-      <div class="founder__portrait" aria-hidden="true">
-        <!-- Replace this monogram with a real photo: <img src="assets/img/founder.jpg" alt="Isaiah Washington"> -->
-        <span>IW</span>
+      <div class="founder__portrait">
+        <img src="assets/img/founder.jpg" alt="Dr. Isaiah Washington">
       </div>
-      <h2>Isaiah Washington</h2>
-      <p class="founder__role">Founder &amp; Visionary Leader<br>Prime Care Health Solutions</p>
+      <h2>Dr. Isaiah Washington</h2>
+      <p class="founder__role">Founder &amp; Chief Executive Officer<br>Prime Care Health Solutions</p>
       <ul class="founder__tags">
         <li>Medical professional</li><li>Healthcare advocate</li><li>Visionary leader</li>
       </ul>
@@ -42,7 +41,7 @@ require __DIR__ . '/includes/page-hero.php';
     <span class="philosophy__q"><?= icon('quote', 44) ?></span>
     <p class="eyebrow eyebrow--light">His philosophy</p>
     <blockquote>“Healthcare is not simply about treating an illness; it is about understanding a human being, restoring hope, preserving dignity, and making a meaningful difference in someone’s life. Every patient deserves to be heard, respected, and cared for with the highest level of compassion and professionalism.”</blockquote>
-    <p class="philosophy__by">— Isaiah Washington</p>
+    <p class="philosophy__by">— Dr. Isaiah Washington</p>
   </div>
 </section>
 
