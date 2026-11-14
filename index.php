@@ -3,85 +3,240 @@ $active = 'home';
 require __DIR__ . '/includes/header.php';
 ?>
 <section class="hero">
-  <div class="hero__bg" aria-hidden="true"><span class="blob blob--1"></span><span class="blob blob--2"></span><span class="grid-dots"></span></div>
-  <div class="wrap hero__inner">
-    <div class="hero__copy">
-      <p class="eyebrow"><span class="pulse-dot"></span> Atlanta · Miami · Los Angeles · Houston</p>
-      <h1>Every life deserves <em>exceptional</em> care.</h1>
-      <p class="lead">Prime Care Health Solutions brings medical excellence, compassionate service and a patient-first philosophy together — from everyday check-ups to pharmacy, prevention and coordinated support.</p>
-      <div class="hero__actions">
-        <a class="btn btn--primary btn--lg" href="<?= url('appointment.php') ?>"><?= icon('calendar', 20) ?> Book an Appointment</a>
-        <a class="btn btn--outline btn--lg" href="<?= url('services.php') ?>">Explore Services <?= icon('arrow', 18) ?></a>
-      </div>
-      <ul class="hero__assure">
-        <li><?= icon('check', 18) ?> Care for every age</li>
-        <li><?= icon('check', 18) ?> Pharmacy &amp; prevention under one roof</li>
-        <li><?= icon('check', 18) ?> Open Saturdays</li>
-      </ul>
-    </div>
-
-    <div class="hero__visual" aria-hidden="true">
-      <div class="hero-art">
-        <svg viewBox="0 0 520 560" class="hero-art__svg">
-          <defs>
-            <linearGradient id="hg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0a52c4"/><stop offset="1" stop-color="#061b4f"/></linearGradient>
-            <linearGradient id="hg2" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#00c4f5"/><stop offset="1" stop-color="#8fe3ff"/></linearGradient>
-            <clipPath id="arch"><path d="M60 560V230C60 120 150 40 260 40s200 80 200 190v330z"/></clipPath>
-          </defs>
-          <path d="M60 560V230C60 120 150 40 260 40s200 80 200 190v330z" fill="url(#hg1)"/>
-          <g clip-path="url(#arch)" opacity=".18" stroke="#fff" fill="none">
-            <circle cx="260" cy="250" r="90"/><circle cx="260" cy="250" r="150"/><circle cx="260" cy="250" r="210"/><circle cx="260" cy="250" r="270"/>
-          </g>
-          <path class="ecg" d="M60 400h110l22-40 28 80 26-120 26 120 20-40h208" fill="none" stroke="url(#hg2)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="470" cy="400" r="9" fill="#00c4f5"><animate attributeName="r" values="9;14;9" dur="2.4s" repeatCount="indefinite"/></circle>
-        </svg>
-        <img class="hero-logo" src="<?= url('assets/img/logo-icon.png') ?>" alt="">
-        <div class="float-card float-card--a">
-          <span class="float-card__icon"><?= icon('heart', 22) ?></span>
-          <div><strong>Patient-first care</strong><small>Heard, respected, cared for</small></div>
-        </div>
-        <div class="float-card float-card--b">
-          <span class="float-card__icon float-card__icon--warm"><?= icon('pin', 22) ?></span>
-          <div><strong>4 locations</strong><small>GA · FL · CA · TX</small></div>
-        </div>
-        <div class="float-card float-card--c">
-          <span class="float-card__icon"><?= icon('pill', 22) ?></span>
-          <div><strong>Pharmacy services</strong><small>Prescriptions &amp; guidance</small></div>
-        </div>
-      </div>
-    </div>
+  <div class="hero__bg" aria-hidden="true">
+    <span class="blob blob--1"></span>
+    <span class="blob blob--2"></span>
+    <span class="grid-dots"></span>
   </div>
 
   <div class="wrap">
+    <!-- Epic Hero Slider -->
+    <div class="hero-slider" data-hero-slider>
+      <div class="hero-slides" data-hero-slides>
+
+        <!-- SLIDE 1: Team & Core Mission -->
+        <div class="hero-slide is-active" data-hero-slide>
+          <div class="hero-slide__inner">
+            <div class="hero__copy">
+              <div class="epic-logo-showcase">
+                <span class="epic-logo-showcase__mark">
+                  <img src="<?= url('assets/img/logo-icon.png') ?>" alt="PrimeCare Emblem">
+                </span>
+                <span class="epic-logo-showcase__text">
+                  <strong>PrimeCare Health Solutions</strong>
+                  <small>Excellence · Compassion · Dignity</small>
+                </span>
+              </div>
+              <h1>Every life deserves <em>exceptional</em> care.</h1>
+              <p class="lead">Prime Care Health Solutions brings medical excellence, modern diagnostics, and a patient-first philosophy together — under the leadership of a world-class clinical team.</p>
+              <div class="hero__actions">
+                <a class="btn btn--primary btn--lg" href="<?= url('appointment.php') ?>"><?= icon('calendar', 20) ?> Book an Appointment</a>
+                <a class="btn btn--outline btn--lg" href="#doctors">Meet Our Specialists <?= icon('arrow', 18) ?></a>
+              </div>
+              <ul class="hero__assure">
+                <li><?= icon('check', 18) ?> Care for every age</li>
+                <li><?= icon('check', 18) ?> Specialized Geriatric &amp; Primary Medicine</li>
+                <li><?= icon('check', 18) ?> 4 U.S. Regional Branches</li>
+              </ul>
+            </div>
+
+            <div class="hero__visual">
+              <div class="hero-visual-card">
+                <img src="<?= url('assets/img/team-group.jpg') ?>" alt="PrimeCare Executive Medical Team">
+                <div class="hero-visual-card__overlay">
+                  <span class="hero-visual-card__tag"><?= icon('shield', 14) ?> Clinical Leadership</span>
+                  <h4>Executive Medical Board</h4>
+                  <p>Physicians, Geriatricians &amp; Clinical Directors at PrimeCare Headquarters</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 2: Founder Dr. Isaiah Washington -->
+        <div class="hero-slide" data-hero-slide>
+          <div class="hero-slide__inner">
+            <div class="hero__copy">
+              <div class="epic-logo-showcase">
+                <span class="epic-logo-showcase__mark">
+                  <img src="<?= url('assets/img/logo-icon.png') ?>" alt="PrimeCare Emblem">
+                </span>
+                <span class="epic-logo-showcase__text">
+                  <strong>Dr. Isaiah Washington, MD</strong>
+                  <small>Founder &amp; Chief Executive Officer</small>
+                </span>
+              </div>
+              <h1>A life dedicated to healing. <em>A legacy built on compassion.</em></h1>
+              <p class="lead">“Healthcare is not simply about treating an illness; it is about understanding a human being, restoring hope, preserving dignity, and making a meaningful difference in someone’s life.”</p>
+              <div class="hero__actions">
+                <a class="btn btn--primary btn--lg" href="<?= url('founder.php') ?>">Read Founder's Story <?= icon('arrow', 18) ?></a>
+                <a class="btn btn--outline btn--lg" href="<?= url('appointment.php') ?>"><?= icon('calendar', 18) ?> Schedule Consultation</a>
+              </div>
+              <ul class="hero__assure">
+                <li><?= icon('spark', 18) ?> Internal Medicine &amp; Healthcare Visionary</li>
+                <li><?= icon('heart', 18) ?> Patient-Centered Philosophy</li>
+              </ul>
+            </div>
+
+            <div class="hero__visual">
+              <div class="hero-visual-card">
+                <img src="<?= url('assets/img/founder.jpg') ?>" alt="Dr. Isaiah Washington, MD">
+                <div class="hero-visual-card__overlay">
+                  <span class="hero-visual-card__tag" style="background:#ffbe53;color:#061b4f">Executive Leadership</span>
+                  <h4>Dr. Isaiah Washington, MD</h4>
+                  <p>Founder &amp; Chief Executive Officer · PrimeCare Health Solutions</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 3: Specialized Medicine & Clinical Directors -->
+        <div class="hero-slide" data-hero-slide>
+          <div class="hero-slide__inner">
+            <div class="hero__copy">
+              <div class="epic-logo-showcase">
+                <span class="epic-logo-showcase__mark">
+                  <img src="<?= url('assets/img/logo-icon.png') ?>" alt="PrimeCare Emblem">
+                </span>
+                <span class="epic-logo-showcase__text">
+                  <strong>Specialized Clinical Services</strong>
+                  <small>Primary, Geriatric &amp; Preventive Care</small>
+                </span>
+              </div>
+              <h1>Connected care, <em>tailored to your life stage.</em></h1>
+              <p class="lead">From dedicated senior healthcare and chronic wellness therapies to routine family health assessments, our clinical directors lead collaborative care across all locations.</p>
+              <div class="hero__actions">
+                <a class="btn btn--primary btn--lg" href="<?= url('card.php') ?>"><?= icon('shield', 18) ?> Digital Patient Cards</a>
+                <a class="btn btn--outline btn--lg" href="<?= url('services.php') ?>">Explore All Services <?= icon('arrow', 18) ?></a>
+              </div>
+              <ul class="hero__assure">
+                <li><?= icon('check', 18) ?> Dr. Aaliyah Johnson (CMO)</li>
+                <li><?= icon('check', 18) ?> Senior &amp; Geriatric Health Center</li>
+                <li><?= icon('check', 18) ?> Verified Digital Health Cards</li>
+              </ul>
+            </div>
+
+            <div class="hero__visual">
+              <div class="hero-visual-card">
+                <img src="<?= url('assets/img/dr-aaliyah-johnson.jpg') ?>" alt="Dr. Aaliyah Johnson, Chief Medical Officer">
+                <div class="hero-visual-card__overlay">
+                  <span class="hero-visual-card__tag">Clinical Governance</span>
+                  <h4>Dr. Aaliyah Johnson, MD</h4>
+                  <p>Chief Medical Officer · Guiding Healthcare Quality Across All Centers</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Slider Controls -->
+      <div class="hero-controls">
+        <div class="hero-dots">
+          <button class="hero-dot is-active" data-hero-dot="0" aria-label="Go to slide 1"></button>
+          <button class="hero-dot" data-hero-dot="1" aria-label="Go to slide 2"></button>
+          <button class="hero-dot" data-hero-dot="2" aria-label="Go to slide 3"></button>
+        </div>
+        <div class="hero-arrows">
+          <button class="hero-arrow" data-hero-prev aria-label="Previous slide"><?= icon('arrow', 16) ?></button>
+          <button class="hero-arrow" data-hero-next aria-label="Next slide" style="transform:scaleX(-1)"><?= icon('arrow', 16) ?></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Finder Form -->
     <form class="finder reveal" action="<?= url('appointment.php') ?>" method="get" aria-label="Quick appointment finder">
       <div class="finder__field">
         <label for="f-service"><?= icon('stethoscope', 18) ?> What do you need?</label>
         <select id="f-service" name="service">
-          <option value="">Choose a service</option>
+          <option value="">Choose a medical service</option>
           <?php foreach ($SERVICES as $k => $s): ?><option value="<?= e($k) ?>"><?= e($s['title']) ?></option><?php endforeach; ?>
         </select>
       </div>
       <div class="finder__field">
-        <label for="f-location"><?= icon('pin', 18) ?> Where?</label>
+        <label for="f-location"><?= icon('pin', 18) ?> Location</label>
         <select id="f-location" name="location">
           <option value="">Choose a location</option>
           <?php foreach ($LOCATIONS as $k => $l): ?><option value="<?= e($k) ?>"><?= e($l['short']) ?>, <?= e($l['state']) ?></option><?php endforeach; ?>
         </select>
       </div>
-      <button class="btn btn--primary btn--lg" type="submit">Find a time <?= icon('arrow', 18) ?></button>
+      <button class="btn btn--primary btn--lg" type="submit">Find Available Times <?= icon('arrow', 18) ?></button>
     </form>
   </div>
 </section>
 
+<!-- Stats Bar -->
 <section class="stats" aria-label="At a glance">
   <div class="wrap stats__grid">
-    <div class="stat reveal"><strong data-count="4">4</strong><span>Locations across the United States</span></div>
-    <div class="stat reveal"><strong data-count="8">8</strong><span>Areas of care under one roof</span></div>
-    <div class="stat reveal"><strong data-count="6">6</strong><span>Days a week our clinics are open</span></div>
-    <div class="stat reveal"><strong>1</strong><span>Standard: exceptional care for every life</span></div>
+    <div class="stat reveal"><strong data-count="4">4</strong><span>Regional Branches (GA · FL · CA · TX)</span></div>
+    <div class="stat reveal"><strong data-count="6">6</strong><span>Resident Physicians &amp; Medical Directors</span></div>
+    <div class="stat reveal"><strong data-count="8">8</strong><span>Comprehensive Care Specialties</span></div>
+    <div class="stat reveal"><strong>100%</strong><span>Patient-first clinical focus</span></div>
   </div>
 </section>
 
+<!-- All Resident Physicians & Medical Directors Section -->
+<section class="section section--tint" id="doctors">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">Clinical Leadership</p>
+      <h2>Meet our resident physicians &amp; specialists</h2>
+      <p>Our board-certified medical doctors bring years of clinical experience, empathy, and specialized diagnostics to every patient visit.</p>
+    </div>
+
+    <div class="doctors-grid">
+      <?php foreach ($TEAM as $key => $doc): ?>
+      <article class="doc-card reveal">
+        <div class="doc-card__media">
+          <img src="<?= url($doc['image']) ?>" alt="<?= e($doc['name']) ?>">
+          <span class="doc-card__badge"><?= e($doc['badge']) ?></span>
+        </div>
+        <div class="doc-card__body">
+          <h3 class="doc-card__name"><?= e($doc['name']) ?></h3>
+          <p class="doc-card__role"><?= e($doc['role']) ?></p>
+          <span class="doc-card__spec"><?= icon('shield', 14) ?> <?= e($doc['spec']) ?></span>
+          <p class="doc-card__bio"><?= e($doc['bio']) ?></p>
+          <div class="doc-card__foot">
+            <span class="doc-card__status">Accepting Patients</span>
+            <a href="<?= url('appointment.php') ?>" class="btn btn--outline btn--sm">Book Visit <?= icon('arrow', 14) ?></a>
+          </div>
+        </div>
+      </article>
+      <?php endforeach; ?>
+    </div>
+  </div>
+</section>
+
+<!-- Digital Patient Card Callout Banner -->
+<section class="section" style="padding-top:20px;padding-bottom:40px">
+  <div class="wrap">
+    <div style="background:linear-gradient(135deg, #061b4f 0%, #0a3d82 60%, #0c56b3 100%);border-radius:28px;padding:48px 40px;color:#fff;display:grid;grid-template-columns:1.2fr 0.8fr;gap:40px;align-items:center;box-shadow:var(--sh-2);position:relative;overflow:hidden">
+      <div style="position:absolute;right:-60px;bottom:-60px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(0,196,245,0.2) 0%,transparent 70%);pointer-events:none"></div>
+      <div>
+        <span style="background:rgba(255,255,255,0.15);color:#8fe3ff;padding:5px 14px;border-radius:999px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;display:inline-block;margin-bottom:12px">Patient Identification System</span>
+        <h2 style="color:#fff;font-size:2.1rem;margin-bottom:14px">Official PrimeCare Digital Health Cards</h2>
+        <p style="color:#c9d6f0;font-size:1.02rem;line-height:1.6;margin-bottom:24px">Every registered patient at PrimeCare receives an authorized Medical ID card. Check your verification status, view your card online, or present it at any of our four branch locations.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a class="btn btn--primary" href="<?= url('card.php') ?>"><?= icon('shield', 18) ?> Verify / View Health Card</a>
+          <a class="btn btn--outline" href="<?= url('appointment.php') ?>" style="color:#fff;border-color:rgba(255,255,255,0.3)">Register as New Patient</a>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,0.08);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:28px;text-align:center">
+        <div style="font-size:3rem;margin-bottom:8px">💳</div>
+        <strong style="display:block;font-size:1.2rem;color:#fff;margin-bottom:6px">Instant Card Verification</strong>
+        <p style="font-size:.86rem;color:#9fb2d8;margin-bottom:18px">Enter your assigned Card ID (e.g. PC-2026-XXXX) to access your verified profile.</p>
+        <form action="<?= url('card.php') ?>" method="get" style="display:flex;gap:8px">
+          <input type="text" name="id" placeholder="PC-2026-XXXX" required style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.9);color:#061b4f;font-weight:700;text-transform:uppercase;font-size:.9rem">
+          <button type="submit" class="btn btn--primary btn--sm" style="flex-shrink:0">Verify</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Services Grid Section -->
 <section class="section" id="services">
   <div class="wrap">
     <div class="section-head reveal">
@@ -102,129 +257,10 @@ require __DIR__ . '/includes/header.php';
   </div>
 </section>
 
-<section class="section section--tint">
-  <div class="wrap split">
-    <div class="split__media reveal">
-      <div class="story-art">
-        <div class="story-art__panel">
-          <p class="eyebrow eyebrow--light">Our story</p>
-          <p class="story-art__big">“Every life deserves exceptional care.”</p>
-          <p class="story-art__small">The principle Prime Care Health Solutions was founded on.</p>
-        </div>
-        <div class="story-art__chip"><?= icon('shield', 20) ?> Integrity · Excellence · Compassion</div>
-      </div>
-    </div>
-    <div class="split__copy reveal">
-      <p class="eyebrow">A legacy of care</p>
-      <h2>More than a hospital — a trusted healthcare destination</h2>
-      <p>Prime Care Health Solutions was founded by <strong>Dr. Isaiah Washington</strong>, a respected medical professional who believed quality care should treat people with dignity while holding to the highest standards of medical practice.</p>
-      <p>Today we extend that commitment beyond hospital-based treatment to preventive care, pharmaceutical services, health education, patient support and coordinated medical solutions.</p>
-      <ul class="ticks">
-        <li><?= icon('check', 18) ?> Experienced medical professionals</li>
-        <li><?= icon('check', 18) ?> Modern healthcare practices</li>
-        <li><?= icon('check', 18) ?> A culture of compassion and responsibility</li>
-      </ul>
-      <a class="btn btn--outline" href="<?= url('about.php') ?>">Read our story <?= icon('arrow', 18) ?></a>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow">Getting care is simple</p>
-      <h2>Your visit in three easy steps</h2>
-    </div>
-    <ol class="steps">
-      <li class="step reveal"><span class="step__n">01</span><h3>Request a visit</h3><p>Choose a service, location and preferred time online — or call us directly. It takes about two minutes.</p></li>
-      <li class="step reveal" style="--d:90ms"><span class="step__n">02</span><h3>We confirm with you</h3><p>Our patient support team reaches out by your preferred method to confirm details and answer questions.</p></li>
-      <li class="step reveal" style="--d:180ms"><span class="step__n">03</span><h3>Receive exceptional care</h3><p>Meet a team that listens first, explains clearly and coordinates every next step with you.</p></li>
-    </ol>
-  </div>
-</section>
-
-<section class="section section--dark">
-  <div class="wrap">
-    <div class="section-head section-head--light reveal">
-      <p class="eyebrow eyebrow--light">What guides us</p>
-      <h2>Our core values</h2>
-    </div>
-    <div class="values">
-      <?php $values = [
-        ['heart', 'Compassion', 'We treat every patient with empathy, dignity, and genuine care.'],
-        ['star', 'Excellence', 'We pursue the highest standards in medical services, professional conduct, and patient outcomes.'],
-        ['scale', 'Integrity', 'We uphold honesty, transparency, accountability, and ethical medical practices.'],
-        ['spark', 'Innovation', 'We embrace modern healthcare solutions and continuous improvement to serve our patients better.'],
-        ['shield', 'Commitment', 'We remain dedicated to protecting lives, promoting wellness, and building healthier communities.'],
-      ]; foreach ($values as $j => [$ic, $t, $d]): ?>
-      <div class="value reveal" style="--d:<?= $j * 70 ?>ms">
-        <span class="value__icon"><?= icon($ic, 24) ?></span>
-        <h3><?= e($t) ?></h3>
-        <p><?= e($d) ?></p>
-      </div>
-      <?php endforeach; ?>
-    </div>
-  </div>
-</section>
-
-<section class="section section--tint" id="team">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow">Expert Medical Care</p>
-      <h2>Meet the clinical leadership behind PrimeCare</h2>
-      <p>Our multidisciplinary team of board-certified physicians, clinical directors, and specialists working together for your health.</p>
-    </div>
-
-    <div class="team-feature reveal">
-      <div class="team-feature__photo">
-        <img src="<?= url('assets/img/team-group.jpg') ?>" alt="PrimeCare Health Solutions Medical Team">
-        <div class="team-feature__badge">
-          <div class="team-feature__badge-icon"><?= icon('shield', 22) ?></div>
-          <div class="team-feature__badge-text">
-            <strong>Clinical Directors &amp; Medical Staff</strong>
-            <small>PrimeCare Health Solutions Clinical Headquarters</small>
-          </div>
-        </div>
-      </div>
-      <div class="team-feature__content">
-        <p class="eyebrow">Compassionate Expertise</p>
-        <h3>Dedicated physicians united by one purpose: your wellness</h3>
-        <p>From comprehensive primary medicine to dedicated senior and geriatric therapies, our leadership team ensures every patient receives attentive, coordinated, and dignified healthcare.</p>
-        
-        <div class="team-feature__roster">
-          <?php 
-          $featured_team = [
-            'dr-aaliyah-johnson',
-            'dr-alexis-moore',
-            'dr-marcus-srisuk',
-            'dr-ethan-wongchai',
-          ];
-          foreach ($featured_team as $doc_id): 
-            if (!isset($TEAM[$doc_id])) continue;
-            $d = $TEAM[$doc_id];
-          ?>
-          <div class="team-feature__doc">
-            <img src="<?= url($d['image']) ?>" alt="<?= e($d['name']) ?>">
-            <div>
-              <strong><?= e($d['name']) ?></strong>
-              <small><?= e($d['role']) ?></small>
-            </div>
-          </div>
-          <?php endforeach; ?>
-        </div>
-
-        <div style="display:flex;gap:12px;flex-wrap:wrap">
-          <a class="btn btn--primary" href="<?= url('about.php#leadership') ?>">View All Specialists <?= icon('arrow', 16) ?></a>
-          <a class="btn btn--outline" href="<?= url('appointment.php') ?>">Schedule Consultation</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
+<!-- Founder Quote Section -->
 <section class="section">
   <div class="wrap founder-teaser reveal">
-    <div class="founder-teaser__mono"><img src="assets/img/founder.jpg" alt="Dr. Isaiah Washington"></div>
+    <div class="founder-teaser__mono"><img src="<?= url('assets/img/founder.jpg') ?>" alt="Dr. Isaiah Washington"></div>
     <figure>
       <span class="founder-teaser__q"><?= icon('quote', 34) ?></span>
       <blockquote>Healthcare is not simply about treating an illness; it is about understanding a human being, restoring hope, preserving dignity, and making a meaningful difference in someone's life.</blockquote>
@@ -234,34 +270,41 @@ require __DIR__ . '/includes/header.php';
   </div>
 </section>
 
+<!-- Locations Section -->
 <section class="section section--tint" id="locations">
   <div class="wrap">
     <div class="section-head reveal">
       <p class="eyebrow">Find us</p>
-      <h2>Care close to home, in four states</h2>
+      <h2>Four welcoming locations, one standard of care</h2>
+      <p>Whether you visit us in Atlanta, Miami, Los Angeles, or Houston, you will find experienced physicians, modern facilities, and a dedicated team.</p>
     </div>
+
     <div class="loc-tabs reveal" data-tabs>
       <div class="loc-tabs__list" role="tablist" aria-label="Locations">
         <?php $first = true; foreach ($LOCATIONS as $k => $l): ?>
-        <button role="tab" id="tab-<?= e($k) ?>" aria-controls="panel-<?= e($k) ?>" aria-selected="<?= $first ? 'true' : 'false' ?>" tabindex="<?= $first ? '0' : '-1' ?>">
-          <small><?= e($l['badge']) ?></small><strong><?= e($l['short']) ?></strong><span><?= e($l['state']) ?></span>
+        <button role="tab" id="tab-<?= e($k) ?>" aria-controls="panel-<?= e($k) ?>" aria-selected="<?= $first ? 'true' : 'false' ?>" tabindex="<?= $first ? '0' : '-1' ?>" data-tab="<?= e($k) ?>">
+          <span class="loc-tabs__tag"><?= e($l['badge']) ?></span>
+          <strong><?= e($l['name']) ?></strong>
+          <small><?= e($l['state']) ?></small>
         </button>
         <?php $first = false; endforeach; ?>
       </div>
-      <?php $first = true; foreach ($LOCATIONS as $k => $l): $q = urlencode($l['street'] . ', ' . explode(' ', $l['city'])[0] . ' ' . $l['state']); ?>
-      <div class="loc-tabs__panel" role="tabpanel" id="panel-<?= e($k) ?>" aria-labelledby="tab-<?= e($k) ?>"<?= $first ? '' : ' hidden' ?>>
+
+      <?php $first = true; foreach ($LOCATIONS as $k => $l): ?>
+      <div class="loc-tabs__panel<?= $first ? ' is-active' : '' ?>" id="panel-<?= e($k) ?>" role="tabpanel" aria-labelledby="tab-<?= e($k) ?>" <?= $first ? '' : 'hidden' ?> data-panel="<?= e($k) ?>">
         <div class="loc-info">
+          <p class="eyebrow"><?= e($l['badge']) ?></p>
           <h3><?= e($l['name']) ?></h3>
-          <p class="loc-line"><?= icon('pin', 20) ?> <span><?= e($l['street']) ?><br><?= e($l['city']) ?>, United States</span></p>
-          <p class="loc-line"><?= icon('phone', 20) ?> <a href="tel:<?= e($l['tel']) ?>"><?= e($l['phone']) ?></a></p>
-          <p class="loc-line"><?= icon('clock', 20) ?> <span><?= e($l['hours']) ?></span></p>
-          <div class="loc-info__actions">
-            <a class="btn btn--primary" href="<?= url('appointment.php?location=' . $k) ?>">Book here</a>
-            <a class="btn btn--outline" href="https://www.google.com/maps/search/?api=1&query=<?= $q ?>" target="_blank" rel="noopener">Directions</a>
+          <p class="loc-addr"><?= icon('pin', 18) ?> <span><?= e($l['street']) ?><br><?= e($l['city']) ?></span></p>
+          <p class="loc-phone"><?= icon('phone', 18) ?> <a href="tel:<?= e($l['tel']) ?>"><?= e($l['phone']) ?></a></p>
+          <p class="loc-hours"><?= icon('clock', 18) ?> <span><?= e($l['hours']) ?></span></p>
+          <div class="loc-actions">
+            <a class="btn btn--primary" href="<?= url('appointment.php?location=' . $k) ?>"><?= icon('calendar', 18) ?> Book at this clinic</a>
+            <a class="btn btn--outline" href="https://maps.google.com/?q=<?= urlencode($l['street'] . ', ' . $l['city']) ?>" target="_blank" rel="noopener">Directions <?= icon('arrow', 16) ?></a>
           </div>
         </div>
-        <div class="loc-map" data-map-src="https://maps.google.com/maps?q=<?= $q ?>&z=13&output=embed" data-map-title="Map of <?= e($l['name']) ?>">
-          <span class="loc-map__ph"><?= icon('pin', 28) ?> Loading map…</span>
+        <div class="loc-map" data-map-src="https://www.google.com/maps?q=<?= urlencode($l['street'] . ', ' . $l['city']) ?>&amp;output=embed" data-map-title="Map of <?= e($l['name']) ?>">
+          <div class="loc-map__ph"><span class="pulse-dot"></span> Loading interactive map…</div>
         </div>
       </div>
       <?php $first = false; endforeach; ?>
@@ -269,28 +312,19 @@ require __DIR__ . '/includes/header.php';
   </div>
 </section>
 
+<!-- 3 Steps -->
 <section class="section">
-  <div class="wrap faq-wrap">
-    <div class="section-head section-head--left reveal">
-      <p class="eyebrow">Good to know</p>
-      <h2>Frequently asked questions</h2>
-      <p>Can't find what you're looking for? <a href="<?= url('contact.php') ?>">Send us a message</a> and our patient support team will help.</p>
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">Getting care is simple</p>
+      <h2>Your visit in three easy steps</h2>
     </div>
-    <div class="faq reveal">
-      <?php $faqs = [
-        ['How do I book an appointment?', 'Use our online appointment request form or call the location nearest you. Our team will contact you to confirm a date and time that works.'],
-        ['Do you see new patients?', 'Yes. We welcome new patients and families at all four of our locations. Just select "New patient" when you request your appointment.'],
-        ['What should I bring to my first visit?', 'Please bring a photo ID, your insurance card if you have one, a list of current medications, and any relevant medical records or test results.'],
-        ['Can I fill prescriptions with you?', 'Our pharmaceutical services team can help with prescriptions, refills and medication reviews, working closely with your physician.'],
-        ['What if I have a medical emergency?', 'Do not use this website for emergencies. Call 911 immediately or go to the nearest emergency room.'],
-        ['Is the information I submit online private?', 'Your details are used only to arrange and confirm your care. Please do not include detailed medical history in online forms — our team will discuss that with you directly.'],
-      ]; foreach ($faqs as $n => [$q, $a]): ?>
-      <details class="faq__item"<?= $n === 0 ? ' open' : '' ?>>
-        <summary><?= e($q) ?><span class="faq__ic"><?= icon('plus', 20) ?></span></summary>
-        <div class="faq__body"><p><?= e($a) ?></p></div>
-      </details>
-      <?php endforeach; ?>
-    </div>
+    <ol class="steps">
+      <li class="step reveal"><span class="step__n">01</span><h3>Request a visit</h3><p>Choose a service, location and preferred time online — or call us directly. It takes about two minutes.</p></li>
+      <li class="step reveal" style="--d:90ms"><span class="step__n">02</span><h3>We confirm with you</h3><p>Our patient support team reaches out by your preferred method to confirm details and answer questions.</p></li>
+      <li class="step reveal" style="--d:180ms"><span class="step__n">03</span><h3>Receive unhurried care</h3><p>Meet with a clinician who listens, explains clearly, and gives you a personalised care plan.</p></li>
+    </ol>
   </div>
 </section>
+
 <?php require __DIR__ . '/includes/footer.php'; ?>

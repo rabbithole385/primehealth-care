@@ -212,4 +212,51 @@
     });
     show(cur, false);
   }
+
+  /* Hero Slider Interaction */
+  const slider = $('[data-hero-slider]');
+  if (slider) {
+    const track = $('[data-hero-slides]', slider);
+    const slides = $$('[data-hero-slide]', track);
+    const dots = $$('[data-hero-dot]', slider);
+    const prevBtn = $('[data-hero-prev]', slider);
+    const nextBtn = $('[data-hero-next]', slider);
+    let current = 0;
+    let timer = null;
+
+    const update = index => {
+      current = (index + slides.length) % slides.length;
+      track.style.transform = `translateX(-${current * 100}%)`;
+      slides.forEach((s, i) => s.classList.toggle('is-active', i === current));
+      dots.forEach((d, i) => d.classList.toggle('is-active', i === current));
+    };
+
+    const next = () => update(current + 1);
+    const prev = () => update(current - 1);
+
+    const startTimer = () => {
+      stopTimer();
+      timer = setInterval(next, 6000);
+    };
+    const stopTimer = () => {
+      if (timer) { clearInterval(timer); timer = null; }
+    };
+
+    nextBtn && nextBtn.addEventListener('click', () => { next(); startTimer(); });
+    prevBtn && prevBtn.addEventListener('click', () => { prev(); startTimer(); });
+
+    dots.forEach((d, idx) => d.addEventListener('click', () => {
+      update(idx);
+      startTimer();
+    }));
+
+    slider.addEventListener('mouseenter', stopTimer);
+    slider.addEventListener('mouseleave', startTimer);
+    slider.addEventListener('touchstart', stopTimer, { passive: true });
+    slider.addEventListener('touchend', startTimer, { passive: true });
+
+    update(0);
+    startTimer();
+  }
+
 })();

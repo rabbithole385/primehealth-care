@@ -614,3 +614,271 @@ html:not(.js) .wizard__nav [data-next],html:not(.js) .wizard__nav [data-prev]{di
   .team-feature__content{padding:32px 24px}
   .team-feature__roster{grid-template-columns:1fr}
 }
+
+
+/* ========================================================
+   EPIC HERO SLIDER & LOGO PRESENTATION
+   ======================================================== */
+.hero { position: relative; overflow: hidden; padding: 48px 0 36px; }
+.hero-slider { position: relative; width: 100%; overflow: hidden; border-radius: var(--r-xl); }
+.hero-slides { display: flex; transition: transform .65s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform; }
+.hero-slide { min-width: 100%; box-sizing: border-box; opacity: 0.35; transform: scale(0.985); transition: opacity .65s ease, transform .65s ease; pointer-events: none; }
+.hero-slide.is-active { opacity: 1; transform: scale(1); pointer-events: auto; }
+.hero-slide__inner { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 48px; align-items: center; padding: 12px 4px 18px; }
+
+/* Epic Logo Showcase Pill */
+.epic-logo-showcase {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(14px);
+  padding: 8px 24px 8px 10px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(0, 51, 160, 0.16);
+  box-shadow: 0 14px 34px -10px rgba(0, 51, 160, 0.22), 0 0 24px rgba(0, 196, 245, 0.18);
+  margin-bottom: 24px;
+}
+.epic-logo-showcase__mark {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #061b4f 0%, #0033a0 100%);
+  display: grid;
+  place-items: center;
+  position: relative;
+  box-shadow: 0 8px 20px rgba(6, 27, 79, 0.35);
+  flex-shrink: 0;
+}
+.epic-logo-showcase__mark img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(255, 255, 255, 0.5));
+}
+.epic-logo-showcase__mark::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, #00c4f5, #0033a0, #ff8a65, #00c4f5);
+  z-index: -1;
+  animation: spinLogo 9s linear infinite;
+}
+@keyframes spinLogo { to { transform: rotate(360deg); } }
+.epic-logo-showcase__text { display: flex; flex-direction: column; }
+.epic-logo-showcase__text strong { font-family: var(--f-display); font-size: 1.15rem; color: var(--deep); line-height: 1.15; }
+.epic-logo-showcase__text small { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--teal); font-weight: 700; margin-top: 2px; }
+
+/* Slide Visual Cards */
+.hero-visual-card {
+  position: relative;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 30px 70px -15px rgba(6, 27, 79, 0.28);
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  background: #fff;
+  aspect-ratio: 4 / 3.4;
+}
+.hero-visual-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  display: block;
+}
+.hero-visual-card__overlay {
+  position: absolute;
+  bottom: 0;
+  inset-inline: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(6, 27, 79, 0.88) 75%);
+  padding: 32px 24px 20px;
+  color: #fff;
+}
+.hero-visual-card__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--coral);
+  color: var(--deep);
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 4px 12px;
+  border-radius: 999px;
+  margin-bottom: 8px;
+}
+.hero-visual-card__overlay h4 { font-size: 1.3rem; margin: 0 0 4px; color: #fff; }
+.hero-visual-card__overlay p { font-size: 0.85rem; color: #c9d6f0; margin: 0; }
+
+/* Slider Nav Controls */
+.hero-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding: 16px 8px 0;
+}
+.hero-dots { display: flex; align-items: center; gap: 8px; }
+.hero-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--line-2);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: width .3s ease, background .3s ease;
+}
+.hero-dot.is-active {
+  width: 38px;
+  background: linear-gradient(90deg, var(--teal), var(--coral-soft));
+}
+.hero-arrows { display: flex; gap: 10px; }
+.hero-arrow {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1.5px solid var(--line);
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: var(--sh-1);
+  transition: all .2s ease;
+}
+.hero-arrow:hover {
+  background: var(--deep);
+  color: #fff;
+  border-color: var(--deep);
+  transform: translateY(-2px);
+  box-shadow: var(--sh-2);
+}
+
+/* Home Doctors Grid Showcase */
+.doctors-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+  margin-top: 40px;
+}
+.doc-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: var(--sh-1);
+  display: flex;
+  flex-direction: column;
+  transition: transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s;
+  position: relative;
+}
+.doc-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 24px 50px -10px rgba(6, 27, 79, 0.16);
+  border-color: var(--teal-2);
+}
+.doc-card__media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 4.4;
+  overflow: hidden;
+  background: var(--mint);
+}
+.doc-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform .5s ease;
+}
+.doc-card:hover .doc-card__media img {
+  transform: scale(1.04);
+}
+.doc-card__badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: rgba(6, 27, 79, 0.88);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.doc-card__body {
+  padding: 22px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.doc-card__name {
+  font-size: 1.28rem;
+  font-weight: 800;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.doc-card__role {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--teal);
+  margin-bottom: 10px;
+}
+.doc-card__spec {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: var(--mint);
+  color: var(--deep);
+  padding: 3px 10px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  width: fit-content;
+}
+.doc-card__bio {
+  font-size: 0.88rem;
+  color: var(--ink-2);
+  line-height: 1.5;
+  margin-bottom: 18px;
+  flex: 1;
+}
+.doc-card__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+  margin-top: auto;
+}
+.doc-card__status {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #10b981;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.doc-card__status::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+}
+
+@media (max-width: 980px) {
+  .hero-slide__inner { grid-template-columns: 1fr; gap: 36px; }
+  .doctors-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+}
+@media (max-width: 640px) {
+  .doctors-grid { grid-template-columns: 1fr; }
+}
