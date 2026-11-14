@@ -48,6 +48,22 @@ function db(): PDO {
         password_hash TEXT NOT NULL,
         created_at TEXT DEFAULT CURRENT_TIMESTAMP
     )");
+    $pdo->exec("CREATE TABLE IF NOT EXISTS patients (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        card_number TEXT UNIQUE NOT NULL,
+        full_name TEXT NOT NULL,
+        dob TEXT,
+        gender TEXT,
+        blood_group TEXT,
+        phone TEXT,
+        email TEXT,
+        emergency_contact TEXT,
+        address TEXT,
+        issue_date TEXT,
+        expiry_date TEXT,
+        status TEXT DEFAULT 'active',
+        created_at TEXT DEFAULT CURRENT_TIMESTAMP
+    )");
     return $pdo;
 }
 

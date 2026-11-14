@@ -70,6 +70,35 @@ require __DIR__ . '/includes/page-hero.php';
   </div>
 </section>
 
+<section class="section section--tint" id="leadership">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">Medical Leadership &amp; Governance</p>
+      <h2>Meet our executive clinical team</h2>
+      <p class="lead">Experienced physicians, medical directors, and healthcare leaders shaping patient-centered medicine across every PrimeCare facility.</p>
+    </div>
+    <div class="doctor-cards">
+      <?php foreach ($TEAM as $k => $doc): ?>
+      <article class="doctor-card reveal">
+        <div class="doctor-card__photo">
+          <img src="<?= url($doc['image']) ?>" alt="<?= e($doc['name']) ?>">
+          <span class="doctor-card__badge"><?= e($doc['badge']) ?></span>
+        </div>
+        <div class="doctor-card__body">
+          <h3 class="doctor-card__name"><?= e($doc['name']) ?></h3>
+          <p class="doctor-card__role"><?= e($doc['role']) ?></p>
+          <span class="doctor-card__spec"><?= icon('shield', 14) ?> <?= e($doc['spec']) ?></span>
+          <p class="doctor-card__desc"><?= e($doc['bio']) ?></p>
+          <?php if (!empty($doc['link'])): ?>
+          <a href="<?= url($doc['link']) ?>" class="card__link" style="margin-top:16px">Read founder profile <?= icon('arrow', 16) ?></a>
+          <?php endif; ?>
+        </div>
+      </article>
+      <?php endforeach; ?>
+    </div>
+  </div>
+</section>
+
 <section class="section section--dark promise">
   <div class="wrap promise__inner reveal">
     <p class="eyebrow eyebrow--light">Our promise</p>

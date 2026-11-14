@@ -51,6 +51,26 @@ if ($authed && $_SERVER['REQUEST_METHOD'] === 'POST' && csrf_check()) {
     if ($act === 'read') $pdo->prepare('UPDATE messages SET is_read=1 WHERE id=?')->execute([$id]);
     if ($act === 'del_msg') $pdo->prepare('DELETE FROM messages WHERE id=?')->execute([$id]);
     if ($act === 'del_sub') $pdo->prepare('DELETE FROM subscribers WHERE id=?')->execute([$id]);
+    if ($act === 'add_patient') {
+        $cnum = clean('card_number', 40);
+        if (!$cnum) {
+            $cnum = 'PC-' . date('Y') . '-' . str_pad((string)rand(1001, 9999), 4, '0', STR_PAD_LEFT);
+        }
+        $name = clean('full_name', 100);
+        $dob  = clean('dob', 30);
+        $gen  = clean('gender', 20);
+        $bg   = clean('blood_group', 10);
+        $ph   = clean('phone', 40);
+        $em   = clean('email', 100);
+        $ec   = clean('emergency_contact', 100);
+        $addr = clean('address', 200);
+        if ($name !== '') {
+            $pdo->prepare('INSERT INTO patients (card_number, full_name, dob, gender, blood_group, phone, email, emergency_contact, address, issue_date, expiry_date, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
+                ->execute([$cnum, $name, $dob, $gen, $bg, $ph, $em, $ec, $addr, date('Y-m-d'), date('Y-m-d', strtotime('+1 year')), 'active']);
+            flash('success', "Patient card $cnum successfully issued for $name.");
+        }
+    }
+    if ($act === 'del_patient') $pdo->prepare('DELETE FROM patients WHERE id=?')->execute([$id]);
     if ($act === 'testmail') {
         $ok = notify('Test email from ' . SITE_NAME . ' admin', "This is a test notification sent from the admin panel at " . date('r') . ".\nIf you can read this, email notifications are working.");
         flash($ok ? 'success' : 'error', $ok ? 'Test email sent to ' . SITE_EMAIL . '. Check the inbox (and spam).' : 'Test email failed (driver: ' . MAIL_DRIVER . '). Check your email variables and the deploy logs.');
@@ -122,6 +142,7 @@ $view = $_GET['view'] ?? 'appointments';
       'all'    => (int)$pdo->query('SELECT COUNT(*) FROM appointments')->fetchColumn(),
       'unread' => (int)$pdo->query('SELECT COUNT(*) FROM messages WHERE is_read=0')->fetchColumn(),
       'subs'   => (int)$pdo->query('SELECT COUNT(*) FROM subscribers')->fetchColumn(),
+      'patients' => (int)$pdo->query('SELECT COUNT(*) FROM patients')->fetchColumn(),
       'week'   => (int)$pdo->query("SELECT COUNT(*) FROM appointments WHERE created_at >= datetime('now','-7 days')")->fetchColumn(),
   ];
   $flash = get_flash();
@@ -132,6 +153,7 @@ $view = $_GET['view'] ?? 'appointments';
       <a class="brand brand--light" href="<?= $self ?>"><span class="brand__mark"><?php include __DIR__ . '/../includes/logo-mark.php'; ?></span><span class="brand__text"><strong>Prime<span>Care</span></strong><small>Admin</small></span></a>
       <nav>
         <a href="?view=appointments" class="<?= $view === 'appointments' ? 'is-on' : '' ?>"><?= icon('calendar', 18) ?> Appointments <?php if ($counts['new']): ?><b><?= $counts['new'] ?></b><?php endif; ?></a>
+        <a href="?view=patients" class="<?= $view === 'patients' ? 'is-on' : '' ?>"><?= icon('shield', 18) ?> Patients &amp; Cards <?php if ($counts['patients']): ?><b><?= $counts['patients'] ?></b><?php endif; ?></a>
         <a href="?view=messages" class="<?= $view === 'messages' ? 'is-on' : '' ?>"><?= icon('inbox', 18) ?> Messages <?php if ($counts['unread']): ?><b><?= $counts['unread'] ?></b><?php endif; ?></a>
         <a href="?view=subscribers" class="<?= $view === 'subscribers' ? 'is-on' : '' ?>"><?= icon('mail', 18) ?> Subscribers</a>
         <a href="?view=settings" class="<?= $view === 'settings' ? 'is-on' : '' ?>"><?= icon('lock', 18) ?> Settings</a>
@@ -151,6 +173,7 @@ $view = $_GET['view'] ?? 'appointments';
         <div class="kpi"><span>Total appointments</span><strong><?= $counts['all'] ?></strong></div>
         <div class="kpi"><span>Unread messages</span><strong><?= $counts['unread'] ?></strong></div>
         <div class="kpi"><span>Subscribers</span><strong><?= $counts['subs'] ?></strong></div>
+        <div class="kpi"><span>Patients &amp; Cards</span><strong><?= $counts['patients'] ?></strong></div>
       </div>
 
 <?php if ($view === 'appointments'):
@@ -188,6 +211,107 @@ $view = $_GET['view'] ?? 'appointments';
               </form>
             </td>
             <td><form method="post" class="inline" onsubmit="return confirm('Delete this request?')"><?= csrf_field() ?><input type="hidden" name="action" value="del_appt"><input type="hidden" name="id" value="<?= $r['id'] ?>"><button class="icon-btn" title="Delete" aria-label="Delete"><?= icon('close', 16) ?></button></form></td>
+          </tr>
+        <?php endforeach; ?>
+        </tbody>
+      </table></div>
+      <?php endif; ?>
+
+<?php elseif ($view === 'patients'): 
+  $where = []; $args = [];
+  if (!empty($_GET['q'])) { $where[] = '(full_name LIKE ? OR card_number LIKE ? OR phone LIKE ?)'; $q = '%' . $_GET['q'] . '%'; array_push($args, $q, $q, $q); }
+  $st = $pdo->prepare('SELECT * FROM patients' . ($where ? ' WHERE ' . implode(' AND ', $where) : '') . ' ORDER BY id DESC LIMIT 300');
+  $st->execute($args); $rows = $st->fetchAll();
+?>
+      <div class="adm__head">
+        <h1>Patient ID Cards &amp; Directory</h1>
+        <a class="btn btn--outline btn--sm" href="<?= url('card.php') ?>" target="_blank"><?= icon('arrow', 14) ?> Public Card Lookup</a>
+      </div>
+
+      <div style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px;margin-bottom:28px;box-shadow:var(--sh-1)">
+        <h3 style="margin-bottom:16px;font-size:1.15rem"><?= icon('shield', 18) ?> Issue New Digital Patient Card</h3>
+        <form method="post" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;align-items:flex-end">
+          <?= csrf_field() ?>
+          <input type="hidden" name="action" value="add_patient">
+          <div>
+            <label style="display:block;font-size:.82rem;font-weight:700;margin-bottom:6px">Full Name *</label>
+            <input class="input" type="text" name="full_name" required placeholder="e.g. John Doe">
+          </div>
+          <div>
+            <label style="display:block;font-size:.82rem;font-weight:700;margin-bottom:6px">Card ID (or leave blank for auto)</label>
+            <input class="input" type="text" name="card_number" placeholder="PC-2026-XXXX">
+          </div>
+          <div>
+            <label style="display:block;font-size:.82rem;font-weight:700;margin-bottom:6px">Date of Birth</label>
+            <input class="input" type="date" name="dob">
+          </div>
+          <div>
+            <label style="display:block;font-size:.82rem;font-weight:700;margin-bottom:6px">Gender</label>
+            <select class="input" name="gender">
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div>
+            <label style="display:block;font-size:.82rem;font-weight:700;margin-bottom:6px">Blood Group</label>
+            <select class="input" name="blood_group">
+              <option value="O+">O+</option>
+              <option value="O-">O-</option>
+              <option value="A+">A+</option>
+              <option value="A-">A-</option>
+              <option value="B+">B+</option>
+              <option value="B-">B-</option>
+              <option value="AB+">AB+</option>
+              <option value="AB-">AB-</option>
+            </select>
+          </div>
+          <div>
+            <label style="display:block;font-size:.82rem;font-weight:700;margin-bottom:6px">Phone Number</label>
+            <input class="input" type="tel" name="phone" placeholder="+1 ...">
+          </div>
+          <div>
+            <label style="display:block;font-size:.82rem;font-weight:700;margin-bottom:6px">Email Address</label>
+            <input class="input" type="email" name="email" placeholder="patient@example.com">
+          </div>
+          <div>
+            <label style="display:block;font-size:.82rem;font-weight:700;margin-bottom:6px">Emergency Contact</label>
+            <input class="input" type="text" name="emergency_contact" placeholder="Name &amp; Phone">
+          </div>
+          <div style="grid-column:1 / -1;display:flex;justify-content:flex-end">
+            <button class="btn btn--primary" type="submit"><?= icon('check', 16) ?> Issue &amp; Generate Card</button>
+          </div>
+        </form>
+      </div>
+
+      <form class="filters" method="get">
+        <input type="hidden" name="view" value="patients">
+        <input class="input" type="search" name="q" placeholder="Search patient name, card ID, phone…" value="<?= e($_GET['q'] ?? '') ?>">
+        <button class="btn btn--primary btn--sm">Search</button>
+      </form>
+
+      <?php if (!$rows): ?><div class="empty"><?= icon('users', 32) ?><p>No registered patients yet. Use the form above to issue the first card.</p></div><?php else: ?>
+      <div class="table-wrap"><table class="tbl">
+        <thead><tr><th>Card ID</th><th>Patient Name</th><th>DOB / Blood</th><th>Contact</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody>
+        <?php foreach ($rows as $r): ?>
+          <tr>
+            <td><strong class="mono" style="color:var(--teal)"><?= e($r['card_number']) ?></strong><small>Issued <?= e($r['issue_date'] ?: date('Y-m-d', strtotime($r['created_at']))) ?></small></td>
+            <td><strong><?= e($r['full_name']) ?></strong><small><?= e($r['gender']) ?></small></td>
+            <td><?= e($r['dob'] ?: 'N/A') ?><small>Blood: <strong><?= e($r['blood_group'] ?: 'N/A') ?></strong></small></td>
+            <td><small><?= e($r['phone']) ?></small><small><?= e($r['email']) ?></small></td>
+            <td><span class="pill b-confirmed"><?= e(strtoupper($r['status'])) ?></span></td>
+            <td>
+              <div style="display:flex;gap:8px;align-items:center">
+                <a class="btn btn--outline btn--sm" href="<?= url('card.php?id=' . urlencode($r['card_number'])) ?>" target="_blank"><?= icon('arrow', 14) ?> View Card</a>
+                <form method="post" class="inline" onsubmit="return confirm('Delete this patient card record?')">
+                  <?= csrf_field() ?>
+                  <input type="hidden" name="action" value="del_patient">
+                  <input type="hidden" name="id" value="<?= $r['id'] ?>">
+                  <button class="icon-btn" title="Delete" aria-label="Delete"><?= icon('close', 16) ?></button>
+                </form>
+              </div>
+            </td>
           </tr>
         <?php endforeach; ?>
         </tbody>

@@ -167,6 +167,61 @@ require __DIR__ . '/includes/header.php';
   </div>
 </section>
 
+<section class="section section--tint" id="team">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">Expert Medical Care</p>
+      <h2>Meet the clinical leadership behind PrimeCare</h2>
+      <p>Our multidisciplinary team of board-certified physicians, clinical directors, and specialists working together for your health.</p>
+    </div>
+
+    <div class="team-feature reveal">
+      <div class="team-feature__photo">
+        <img src="<?= url('assets/img/team-group.jpg') ?>" alt="PrimeCare Health Solutions Medical Team">
+        <div class="team-feature__badge">
+          <div class="team-feature__badge-icon"><?= icon('shield', 22) ?></div>
+          <div class="team-feature__badge-text">
+            <strong>Clinical Directors &amp; Medical Staff</strong>
+            <small>PrimeCare Health Solutions Clinical Headquarters</small>
+          </div>
+        </div>
+      </div>
+      <div class="team-feature__content">
+        <p class="eyebrow">Compassionate Expertise</p>
+        <h3>Dedicated physicians united by one purpose: your wellness</h3>
+        <p>From comprehensive primary medicine to dedicated senior and geriatric therapies, our leadership team ensures every patient receives attentive, coordinated, and dignified healthcare.</p>
+        
+        <div class="team-feature__roster">
+          <?php 
+          $featured_team = [
+            'dr-aaliyah-johnson',
+            'dr-alexis-moore',
+            'dr-marcus-srisuk',
+            'dr-ethan-wongchai',
+          ];
+          foreach ($featured_team as $doc_id): 
+            if (!isset($TEAM[$doc_id])) continue;
+            $d = $TEAM[$doc_id];
+          ?>
+          <div class="team-feature__doc">
+            <img src="<?= url($d['image']) ?>" alt="<?= e($d['name']) ?>">
+            <div>
+              <strong><?= e($d['name']) ?></strong>
+              <small><?= e($d['role']) ?></small>
+            </div>
+          </div>
+          <?php endforeach; ?>
+        </div>
+
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a class="btn btn--primary" href="<?= url('about.php#leadership') ?>">View All Specialists <?= icon('arrow', 16) ?></a>
+          <a class="btn btn--outline" href="<?= url('appointment.php') ?>">Schedule Consultation</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="section">
   <div class="wrap founder-teaser reveal">
     <div class="founder-teaser__mono"><img src="assets/img/founder.jpg" alt="Dr. Isaiah Washington"></div>

@@ -10,6 +10,7 @@ $nav = [
     'founder'   => ['Our Founder', 'founder.php'],
     'services'  => ['Services', 'services.php'],
     'locations' => ['Locations', 'locations.php'],
+    'card'      => ['Patient Cards', 'card.php'],
     'contact'   => ['Contact', 'contact.php'],
 ];
 ?><!DOCTYPE html>

@@ -576,3 +576,41 @@ html:not(.js) .wizard__nav [data-next],html:not(.js) .wizard__nav [data-prev]{di
 .hero-logo{position:absolute;left:50%;top:37%;transform:translate(-50%,-50%);width:46%;background:#fff;border-radius:36px;padding:7%;box-shadow:0 30px 60px -20px rgba(0,0,0,.45)}
 .founder-teaser__mono span,.founder__portrait span{font-family:var(--f-display)}
 .summary dt{white-space:nowrap}.summary dd{word-break:break-word}
+
+/* Doctor & Leadership Cards */
+.doctor-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:28px;margin-top:36px}
+.doctor-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--sh-1);transition:transform .3s var(--ease),box-shadow .3s var(--ease);display:flex;flex-direction:column}
+.doctor-card:hover{transform:translateY(-6px);box-shadow:var(--sh-2)}
+.doctor-card__photo{position:relative;width:100%;aspect-ratio:4/4.8;overflow:hidden;background:var(--mint)}
+.doctor-card__photo img{width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform .4s ease}
+.doctor-card:hover .doctor-card__photo img{transform:scale(1.03)}
+.doctor-card__badge{position:absolute;top:16px;right:16px;background:rgba(14,34,61,.88);backdrop-filter:blur(8px);color:#fff;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:5px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.2)}
+.doctor-card__body{padding:24px 22px 26px;display:flex;flex-direction:column;flex:1}
+.doctor-card__name{font-size:1.35rem;font-weight:800;color:var(--ink);margin-bottom:4px}
+.doctor-card__role{font-size:.95rem;font-weight:700;color:var(--teal);margin-bottom:12px}
+.doctor-card__spec{display:inline-flex;align-items:center;gap:6px;font-size:.82rem;font-weight:600;background:var(--mint);color:var(--deep);padding:4px 10px;border-radius:8px;margin-bottom:14px;width:fit-content}
+.doctor-card__desc{font-size:.9rem;color:var(--ink-2);line-height:1.55;margin:0}
+
+
+/* Team Showcase Feature */
+.team-feature{position:relative;border-radius:var(--r-xl);overflow:hidden;background:#fff;border:1px solid var(--line);box-shadow:var(--sh-2);display:grid;grid-template-columns:1.1fr 1fr;align-items:center;margin-top:36px}
+.team-feature__photo{position:relative;height:100%;min-height:460px;overflow:hidden}
+.team-feature__photo img{width:100%;height:100%;object-fit:cover;object-position:center 22%;display:block;transition:transform .5s ease}
+.team-feature:hover .team-feature__photo img{transform:scale(1.02)}
+.team-feature__badge{position:absolute;bottom:20px;left:20px;right:20px;background:rgba(6,27,79,.92);backdrop-filter:blur(12px);color:#fff;padding:16px 20px;border-radius:16px;border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;gap:14px;box-shadow:0 16px 36px rgba(0,0,0,.35)}
+.team-feature__badge-icon{width:44px;height:44px;border-radius:12px;background:var(--coral-soft);color:var(--deep);display:grid;place-items:center;flex-shrink:0}
+.team-feature__badge-text strong{display:block;font-size:1rem;color:#fff;font-weight:700}
+.team-feature__badge-text small{color:#9fb2d8;font-size:.85rem}
+.team-feature__content{padding:48px 40px}
+.team-feature__content h3{font-size:1.9rem;margin-bottom:12px;line-height:1.25}
+.team-feature__roster{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:24px 0 28px}
+.team-feature__doc{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:12px;background:var(--tint);border:1px solid var(--line)}
+.team-feature__doc img{width:42px;height:42px;border-radius:50%;object-fit:cover}
+.team-feature__doc strong{display:block;font-size:.88rem;color:var(--ink);line-height:1.2}
+.team-feature__doc small{color:var(--muted);font-size:.78rem}
+@media (max-width:900px){
+  .team-feature{grid-template-columns:1fr}
+  .team-feature__photo{min-height:360px}
+  .team-feature__content{padding:32px 24px}
+  .team-feature__roster{grid-template-columns:1fr}
+}
