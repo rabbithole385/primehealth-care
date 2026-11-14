@@ -1,5 +1,9 @@
 #!/bin/sh
 set -e
+
+# Ensure only prefork MPM is enabled
+a2dismod -f mpm_event mpm_worker 2>/dev/null || true
+a2enmod mpm_prefork 2>/dev/null || true
 # Railway sets $PORT — make Apache listen on it
 PORT="${PORT:-8080}"
 sed -ri "s/^Listen .*/Listen ${PORT}/" /etc/apache2/ports.conf

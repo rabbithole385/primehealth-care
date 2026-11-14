@@ -1,7 +1,8 @@
 # Prime Care Health Solutions — Railway / Docker image
 FROM php:8.3-apache
 
-RUN a2enmod rewrite headers expires deflate remoteip \
+RUN a2dismod -f mpm_event mpm_worker 2>/dev/null || true \
+ && a2enmod mpm_prefork rewrite headers expires deflate remoteip \
  && sed -ri 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf \
  && echo 'ServerName localhost' > /etc/apache2/conf-available/servername.conf && a2enconf servername \
  && printf 'RemoteIPHeader X-Forwarded-For\nRemoteIPTrustedProxy 0.0.0.0/0\n' > /etc/apache2/conf-available/remoteip.conf && a2enconf remoteip \
