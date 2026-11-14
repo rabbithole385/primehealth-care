@@ -80,3 +80,4 @@ CREATE INDEX IF NOT EXISTS idx_messages_read ON messages(is_read);
 -- Sample Patient Card
 INSERT INTO patients (card_number, full_name, dob, gender, blood_group, phone, email, emergency_contact, address, issue_date, expiry_date, status)
 VALUES ('PC-2026-1042', 'Evelyn Montgomery', '1962-04-18', 'Female', 'O+', '+1 (404) 555-0193', 'evelyn.montgomery@example.com', 'David Montgomery (Son) +1 (404) 555-0194', '1420 Peachtree Rd NE, Atlanta, GA', '2026-01-15', '2027-01-15', 'active');
+

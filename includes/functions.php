@@ -4,65 +4,81 @@ require_once __DIR__ . '/config.php';
 function db(): PDO {
     static $pdo = null;
     if ($pdo) return $pdo;
-    $dir = dirname(DB_PATH);
-    if (!is_dir($dir)) mkdir($dir, 0755, true);
-    $pdo = new PDO('sqlite:' . DB_PATH);
+
+    $mysqlHost = env('MYSQLHOST');
+    $isMySQL = !empty($mysqlHost);
+
+    if ($isMySQL) {
+        $dbName = env('MYSQLDATABASE', 'railway');
+        $user   = env('MYSQLUSER', 'root');
+        $pass   = env('MYSQLPASSWORD', '');
+        $port   = env('MYSQLPORT', '3306');
+        $dsn    = "mysql:host=$mysqlHost;port=$port;dbname=$dbName;charset=utf8mb4";
+        $pdo    = new PDO($dsn, $user, $pass);
+    } else {
+        $dir = dirname(DB_PATH);
+        if (!is_dir($dir)) mkdir($dir, 0755, true);
+        $pdo = new PDO('sqlite:' . DB_PATH);
+        $pdo->exec('PRAGMA journal_mode = WAL');
+    }
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-    $pdo->exec('PRAGMA journal_mode = WAL');
+
+    $ai = $isMySQL ? 'INT AUTO_INCREMENT PRIMARY KEY' : 'INTEGER PRIMARY KEY AUTOINCREMENT';
+
     $pdo->exec("CREATE TABLE IF NOT EXISTS appointments (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        ref TEXT UNIQUE,
-        full_name TEXT NOT NULL,
-        email TEXT NOT NULL,
-        phone TEXT NOT NULL,
-        location TEXT NOT NULL,
-        service TEXT NOT NULL,
-        patient_type TEXT,
-        preferred_date TEXT,
-        preferred_time TEXT,
-        contact_method TEXT,
+        id $ai,
+        ref VARCHAR(60) UNIQUE,
+        full_name VARCHAR(120) NOT NULL,
+        email VARCHAR(120) NOT NULL,
+        phone VARCHAR(40) NOT NULL,
+        location VARCHAR(60) NOT NULL,
+        service VARCHAR(60) NOT NULL,
+        patient_type VARCHAR(30),
+        preferred_date VARCHAR(30),
+        preferred_time VARCHAR(30),
+        contact_method VARCHAR(30),
         notes TEXT,
-        status TEXT DEFAULT 'new',
-        created_at TEXT DEFAULT CURRENT_TIMESTAMP
+        status VARCHAR(30) DEFAULT 'new',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )");
     $pdo->exec("CREATE TABLE IF NOT EXISTS messages (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        full_name TEXT NOT NULL,
-        email TEXT NOT NULL,
-        phone TEXT,
-        location TEXT,
-        subject TEXT,
+        id $ai,
+        full_name VARCHAR(120) NOT NULL,
+        email VARCHAR(120) NOT NULL,
+        phone VARCHAR(40),
+        location VARCHAR(60),
+        subject VARCHAR(150),
         message TEXT NOT NULL,
-        is_read INTEGER DEFAULT 0,
-        created_at TEXT DEFAULT CURRENT_TIMESTAMP
+        is_read INT DEFAULT 0,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )");
     $pdo->exec("CREATE TABLE IF NOT EXISTS subscribers (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        email TEXT UNIQUE NOT NULL,
-        created_at TEXT DEFAULT CURRENT_TIMESTAMP
+        id $ai,
+        email VARCHAR(120) UNIQUE NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )");
     $pdo->exec("CREATE TABLE IF NOT EXISTS admins (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT UNIQUE NOT NULL,
-        password_hash TEXT NOT NULL,
-        created_at TEXT DEFAULT CURRENT_TIMESTAMP
+        id $ai,
+        username VARCHAR(60) UNIQUE NOT NULL,
+        password_hash VARCHAR(255) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )");
     $pdo->exec("CREATE TABLE IF NOT EXISTS patients (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        card_number TEXT UNIQUE NOT NULL,
-        full_name TEXT NOT NULL,
-        dob TEXT,
-        gender TEXT,
-        blood_group TEXT,
-        phone TEXT,
-        email TEXT,
-        emergency_contact TEXT,
-        address TEXT,
-        issue_date TEXT,
-        expiry_date TEXT,
-        status TEXT DEFAULT 'active',
-        created_at TEXT DEFAULT CURRENT_TIMESTAMP
+        id $ai,
+        card_number VARCHAR(60) UNIQUE NOT NULL,
+        full_name VARCHAR(120) NOT NULL,
+        dob VARCHAR(30),
+        gender VARCHAR(20),
+        blood_group VARCHAR(10),
+        phone VARCHAR(40),
+        email VARCHAR(120),
+        emergency_contact VARCHAR(120),
+        address VARCHAR(255),
+        issue_date VARCHAR(30),
+        expiry_date VARCHAR(30),
+        status VARCHAR(30) DEFAULT 'active',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )");
     return $pdo;
 }
