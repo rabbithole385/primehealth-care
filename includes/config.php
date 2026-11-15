@@ -136,7 +136,7 @@ $SERVICES = [
 
 $TEAM = [
     'dr-isaiah-washington' => [
-        'name'      => 'Dr. Isaiah Washington, MD',
+        'name'      => 'Isaiah Washington, MD',
         'role'      => 'Founder & Chief Executive Officer',
         'badge'     => 'Executive Leadership',
         'image'     => 'assets/img/founder.jpg',
@@ -145,7 +145,7 @@ $TEAM = [
         'link'      => 'founder.php',
     ],
     'dr-aaliyah-johnson' => [
-        'name'      => 'Dr. Aaliyah Johnson, MD',
+        'name'      => 'Aaliyah Johnson, MD',
         'role'      => 'Chief Medical Officer',
         'badge'     => 'Clinical Governance',
         'image'     => 'assets/img/dr-aaliyah-johnson.jpg',
@@ -154,7 +154,7 @@ $TEAM = [
         'link'      => '',
     ],
     'dr-alexis-moore' => [
-        'name'      => 'Dr. Alexis Moore, MD',
+        'name'      => 'Alexis Moore, MD',
         'role'      => 'Chief Geriatrician',
         'badge'     => 'Geriatric Medicine',
         'image'     => 'assets/img/dr-alexis-moore.jpg',
@@ -163,7 +163,7 @@ $TEAM = [
         'link'      => '',
     ],
     'dr-marcus-srisuk' => [
-        'name'      => 'Dr. Marcus Srisuk, MD',
+        'name'      => 'Marcus Srisuk, MD',
         'role'      => 'Senior Primary Care Physician',
         'badge'     => 'Primary Care',
         'image'     => 'assets/img/dr-marcus-srisuk.jpg',
@@ -172,7 +172,7 @@ $TEAM = [
         'link'      => '',
     ],
     'dr-ethan-wongchai' => [
-        'name'      => 'Dr. Ethan Wongchai, MD',
+        'name'      => 'Ethan Wongchai, MD',
         'role'      => 'Head of Senior Healthcare Services',
         'badge'     => 'Senior Healthcare',
         'image'     => 'assets/img/dr-ethan-wongchai.jpg',
@@ -181,7 +181,7 @@ $TEAM = [
         'link'      => '',
     ],
     'dr-nathan-wattanakul' => [
-        'name'      => 'Dr. Nathan Wattanakul, MD',
+        'name'      => 'Nathan Wattanakul, MD',
         'role'      => 'Director of Geriatric Services',
         'badge'     => 'Geriatric Services',
         'image'     => 'assets/img/dr-nathan-wattanakul.jpg',

@@ -53,7 +53,7 @@ require __DIR__ . '/includes/header.php';
           </div>
         </div>
 
-        <!-- SLIDE 2: Founder Dr. Isaiah Washington -->
+        <!-- SLIDE 2: Founder Isaiah Washington, MD -->
         <div class="hero-slide" data-hero-slide>
           <div class="hero-slide__inner">
             <div class="hero__copy">
@@ -62,7 +62,7 @@ require __DIR__ . '/includes/header.php';
                   <img src="<?= url('assets/img/logo-icon.png') ?>" alt="PrimeCare Emblem">
                 </span>
                 <span class="epic-logo-showcase__text">
-                  <strong>Dr. Isaiah Washington, MD</strong>
+                  <strong>Isaiah Washington, MD</strong>
                   <small>Founder &amp; Chief Executive Officer</small>
                 </span>
               </div>
@@ -80,10 +80,10 @@ require __DIR__ . '/includes/header.php';
 
             <div class="hero__visual">
               <div class="hero-visual-card">
-                <img src="<?= url('assets/img/founder.jpg') ?>" alt="Dr. Isaiah Washington, MD">
+                <img src="<?= url('assets/img/founder.jpg') ?>" alt="Isaiah Washington, MD">
                 <div class="hero-visual-card__overlay">
                   <span class="hero-visual-card__tag" style="background:#ffbe53;color:#061b4f">Executive Leadership</span>
-                  <h4>Dr. Isaiah Washington, MD</h4>
+                  <h4>Isaiah Washington, MD</h4>
                   <p>Founder &amp; Chief Executive Officer · PrimeCare Health Solutions</p>
                 </div>
               </div>
@@ -111,7 +111,7 @@ require __DIR__ . '/includes/header.php';
                 <a class="btn btn--outline btn--lg" href="<?= url('services.php') ?>">Explore All Services <?= icon('arrow', 18) ?></a>
               </div>
               <ul class="hero__assure">
-                <li><?= icon('check', 18) ?> Dr. Aaliyah Johnson (CMO)</li>
+                <li><?= icon('check', 18) ?> Aaliyah Johnson, MD (CMO)</li>
                 <li><?= icon('check', 18) ?> Senior &amp; Geriatric Health Center</li>
                 <li><?= icon('check', 18) ?> Verified Digital Health Cards</li>
               </ul>
@@ -119,10 +119,10 @@ require __DIR__ . '/includes/header.php';
 
             <div class="hero__visual">
               <div class="hero-visual-card">
-                <img src="<?= url('assets/img/dr-aaliyah-johnson.jpg') ?>" alt="Dr. Aaliyah Johnson, Chief Medical Officer">
+                <img src="<?= url('assets/img/dr-aaliyah-johnson.jpg') ?>" alt="Aaliyah Johnson, MD, Chief Medical Officer">
                 <div class="hero-visual-card__overlay">
                   <span class="hero-visual-card__tag">Clinical Governance</span>
-                  <h4>Dr. Aaliyah Johnson, MD</h4>
+                  <h4>Aaliyah Johnson, MD</h4>
                   <p>Chief Medical Officer · Guiding Healthcare Quality Across All Centers</p>
                 </div>
               </div>
@@ -260,11 +260,11 @@ require __DIR__ . '/includes/header.php';
 <!-- Founder Quote Section -->
 <section class="section">
   <div class="wrap founder-teaser reveal">
-    <div class="founder-teaser__mono"><img src="<?= url('assets/img/founder.jpg') ?>" alt="Dr. Isaiah Washington"></div>
+    <div class="founder-teaser__mono"><img src="<?= url('assets/img/founder.jpg') ?>" alt="Isaiah Washington, MD"></div>
     <figure>
       <span class="founder-teaser__q"><?= icon('quote', 34) ?></span>
       <blockquote>Healthcare is not simply about treating an illness; it is about understanding a human being, restoring hope, preserving dignity, and making a meaningful difference in someone's life.</blockquote>
-      <figcaption><strong>Dr. Isaiah Washington</strong><span>Founder &amp; Chief Executive Officer</span></figcaption>
+      <figcaption><strong>Isaiah Washington, MD</strong><span>Founder &amp; Chief Executive Officer</span></figcaption>
       <a class="btn btn--outline" href="<?= url('founder.php') ?>">Meet our founder <?= icon('arrow', 18) ?></a>
     </figure>
   </div>
