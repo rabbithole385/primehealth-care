@@ -1,5 +1,5 @@
 # Prime Care Health Solutions — Railway / Docker image
-# Build: 2026-11-15 v2 (mail portal)
+# Build: 2026-11-15 v3 (mail portal fix)
 FROM php:8.3-apache
 
 RUN a2dismod -f mpm_event mpm_worker 2>/dev/null || true \
