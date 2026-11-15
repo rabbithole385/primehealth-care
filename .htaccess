@@ -9,11 +9,12 @@ ErrorDocument 404 /404.php
   # RewriteCond %{HTTP_HOST} !^www\. [NC]
   # RewriteRule ^ https://www.primecarehealthsolutions.online%{REQUEST_URI} [L,R=301]
 
-  # Block direct access to private folders only (not /mail)
+  # Block direct access to private folders only
   RewriteRule ^(data|includes)(/|$) - [F,L]
 
-  # Mail portal: /mail -> /mail/index.php
-  RewriteRule ^mail/?$ mail/index.php [L]
+  # Clean mail routes (prevents mod_dir container port leak)
+  RewriteRule ^mail$ https://www.primecarehealthsolutions.online/mail/ [R=301,L]
+  RewriteRule ^mail/?$ mail.php [L]
 
   # Clean URLs: /about -> about.php (single-word pages only)
   RewriteCond %{REQUEST_FILENAME} !-d
