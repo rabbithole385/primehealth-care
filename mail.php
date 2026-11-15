@@ -1,5 +1,5 @@
-﻿<?php
-require_once __DIR__ . '/../includes/functions.php';
+<?php
+require_once __DIR__ . '/includes/functions.php';
 header('X-Frame-Options: DENY');
 header('X-Robots-Tag: noindex, nofollow');
 
