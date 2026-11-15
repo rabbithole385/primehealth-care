@@ -369,7 +369,8 @@ function get_flash(): ?array
 function url(string $path = ''): string
 {
     $base = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), '/');
-    if (in_array(basename($base), ['admin', 'mail'], true)) $base = dirname($base);
+    if (in_array(basename($base), ['admin', 'mail'], true))
+        $base = dirname($base);
     $base = $base === '/' || $base === '.' ? '' : $base;
     return $base . '/' . ltrim($path, '/');
 }
