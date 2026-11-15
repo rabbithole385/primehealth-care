@@ -80,6 +80,40 @@ function db(): PDO {
         status VARCHAR(30) DEFAULT 'active',
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )");
+    $pdo->exec("CREATE TABLE IF NOT EXISTS mail_users (
+        id $ai,
+        username VARCHAR(60) UNIQUE NOT NULL,
+        email VARCHAR(120),
+        password_hash VARCHAR(255) NOT NULL,
+        role VARCHAR(30) DEFAULT 'admin',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )");
+    $pdo->exec("CREATE TABLE IF NOT EXISTS email_logs (
+        id $ai,
+        recipient VARCHAR(255) NOT NULL,
+        subject VARCHAR(255) NOT NULL,
+        body_html TEXT,
+        body_text TEXT,
+        sender VARCHAR(150) NOT NULL,
+        status VARCHAR(30) DEFAULT 'sent',
+        resend_id VARCHAR(100),
+        error_message TEXT,
+        sent_by VARCHAR(60),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )");
+
+    // Auto-seed default mail user if none exists
+    try {
+        $mailUserCount = (int)$pdo->query("SELECT COUNT(*) FROM mail_users")->fetchColumn();
+        if ($mailUserCount === 0) {
+            $defaultPass = password_hash('PrimeCare#Mail2026!', PASSWORD_DEFAULT);
+            $st = $pdo->prepare("INSERT INTO mail_users (username, email, password_hash, role) VALUES (?, ?, ?, ?)");
+            $st->execute(['support', 'support@primecarehealthsolutions.online', $defaultPass, 'admin']);
+        }
+    } catch (Throwable $e) {
+        // Silently continue if table locked or in migration
+    }
+
     return $pdo;
 }
 
@@ -122,19 +156,103 @@ function notify(string $subject, string $body, string $replyTo = ''): bool {
     }
 }
 
-/** Resend.com HTTPS API — works on Railway Free/Hobby (SMTP is blocked there). */
-function send_resend(string $subject, string $body, string $replyTo): bool {
-    $payload = ['from' => SITE_NAME . ' <' . MAIL_FROM . '>', 'to' => array_map('trim', explode(',', SITE_EMAIL)), 'subject' => $subject, 'text' => $body];
-    if ($replyTo) $payload['reply_to'] = $replyTo;
+/** Resend.com HTTPS API — works on Railway Free/Hobby and custom domains */
+function send_resend(string $subject, string $body, string $replyTo = ''): bool {
+    $res = send_resend_email(SITE_EMAIL, $subject, nl2br(htmlspecialchars($body)), $body, '', $replyTo, 'system_notification');
+    return !empty($res['ok']);
+}
+
+/**
+ * Universal Resend Dispatcher: supports single or multiple recipients, HTML & text, reply-to, and email_logs logging.
+ */
+function send_resend_email($to, string $subject, string $htmlBody, string $textBody = '', string $from = '', string $replyTo = '', string $sentBy = 'system'): array {
+    $apiKey = env('RESEND_API_KEY', defined('RESEND_API_KEY') ? RESEND_API_KEY : '');
+    $fromAddr = $from ?: (SITE_NAME . ' <' . MAIL_FROM . '>');
+    $toArr = is_array($to) ? $to : array_map('trim', explode(',', $to));
+    $validRecipients = [];
+    foreach ($toArr as $m) {
+        $cleanMail = filter_var(trim((string)$m), FILTER_VALIDATE_EMAIL);
+        if ($cleanMail) $validRecipients[] = $cleanMail;
+    }
+    $validRecipients = array_values(array_unique($validRecipients));
+
+    if (empty($validRecipients)) {
+        return ['ok' => false, 'error' => 'No valid recipient email address specified.', 'code' => 400];
+    }
+
+    if (empty($apiKey)) {
+        return ['ok' => false, 'error' => 'Resend API key is not configured.', 'code' => 500];
+    }
+
+    $payload = [
+        'from'    => $fromAddr,
+        'to'      => $validRecipients,
+        'subject' => $subject,
+        'html'    => $htmlBody,
+    ];
+
+    if ($textBody !== '') {
+        $payload['text'] = $textBody;
+    } else {
+        $payload['text'] = strip_tags(preg_replace('/<br\s*\/?>/i', "\n", $htmlBody));
+    }
+
+    if ($replyTo && filter_var($replyTo, FILTER_VALIDATE_EMAIL)) {
+        $payload['reply_to'] = $replyTo;
+    }
+
     $ch = curl_init('https://api.resend.com/emails');
     curl_setopt_array($ch, [
-        CURLOPT_POST => true, CURLOPT_RETURNTRANSFER => true, CURLOPT_TIMEOUT => 10,
-        CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . env('RESEND_API_KEY'), 'Content-Type: application/json'],
-        CURLOPT_POSTFIELDS => json_encode($payload),
+        CURLOPT_POST           => true,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT        => 15,
+        CURLOPT_HTTPHEADER     => [
+            'Authorization: Bearer ' . $apiKey,
+            'Content-Type: application/json',
+        ],
+        CURLOPT_POSTFIELDS     => json_encode($payload),
     ]);
-    $res = curl_exec($ch); $code = curl_getinfo($ch, CURLINFO_HTTP_CODE); curl_close($ch);
-    if ($code >= 300) error_log("[primecare mail] Resend HTTP {$code}: {$res}");
-    return $code > 0 && $code < 300;
+
+    $raw = curl_exec($ch);
+    $code = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curlErr = curl_error($ch);
+    curl_close($ch);
+
+    $ok = ($code >= 200 && $code < 300);
+    $data = json_decode((string)$raw, true);
+    $resendId = $data['id'] ?? '';
+    $errMsg = !$ok ? ($data['message'] ?? ($curlErr ?: "HTTP $code: $raw")) : '';
+
+    if (!$ok) {
+        error_log("[primecare mail] Resend failed ({$code}): {$errMsg}");
+    }
+
+    // Persist to email_logs
+    try {
+        $pdo = db();
+        $st = $pdo->prepare("INSERT INTO email_logs (recipient, subject, body_html, body_text, sender, status, resend_id, error_message, sent_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $st->execute([
+            implode(', ', $validRecipients),
+            $subject,
+            $htmlBody,
+            $payload['text'],
+            $fromAddr,
+            $ok ? 'sent' : 'failed',
+            $resendId,
+            $errMsg,
+            $sentBy
+        ]);
+    } catch (Throwable $e) {
+        error_log('[primecare mail_log error] ' . $e->getMessage());
+    }
+
+    return [
+        'ok'     => $ok,
+        'id'     => $resendId,
+        'error'  => $errMsg,
+        'code'   => $code,
+        'to'     => $validRecipients,
+    ];
 }
 
 /** Minimal SMTP client (STARTTLS on 587, implicit TLS on 465). No Composer needed. */
@@ -172,7 +290,7 @@ function get_flash(): ?array { $f = $_SESSION['flash'] ?? null; unset($_SESSION[
 
 function url(string $path = ''): string {
     $base = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), '/');
-    if (basename($base) === 'admin') $base = dirname($base);
+    if (in_array(basename($base), ['admin', 'mail'], true)) $base = dirname($base);
     $base = $base === '/' || $base === '.' ? '' : $base;
     return $base . '/' . ltrim($path, '/');
 }

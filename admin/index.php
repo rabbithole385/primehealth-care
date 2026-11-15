@@ -156,6 +156,7 @@ $view = $_GET['view'] ?? 'appointments';
         <a href="?view=patients" class="<?= $view === 'patients' ? 'is-on' : '' ?>"><?= icon('shield', 18) ?> Patients &amp; Cards <?php if ($counts['patients']): ?><b><?= $counts['patients'] ?></b><?php endif; ?></a>
         <a href="?view=messages" class="<?= $view === 'messages' ? 'is-on' : '' ?>"><?= icon('inbox', 18) ?> Messages <?php if ($counts['unread']): ?><b><?= $counts['unread'] ?></b><?php endif; ?></a>
         <a href="?view=subscribers" class="<?= $view === 'subscribers' ? 'is-on' : '' ?>"><?= icon('mail', 18) ?> Subscribers</a>
+        <a href="<?= url('mail/index.php') ?>" target="_blank"><?= icon('spark', 18) ?> Mail Portal ↗</a>
         <a href="?view=settings" class="<?= $view === 'settings' ? 'is-on' : '' ?>"><?= icon('lock', 18) ?> Settings</a>
       </nav>
       <div class="adm__foot">

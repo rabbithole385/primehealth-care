@@ -67,11 +67,38 @@ CREATE TABLE IF NOT EXISTS admins (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- 6. Dedicated Mail Users Table (Mail Portal Access)
+CREATE TABLE IF NOT EXISTS mail_users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username VARCHAR(60) UNIQUE NOT NULL,
+    email VARCHAR(120),
+    password_hash VARCHAR(255) NOT NULL,
+    role VARCHAR(30) DEFAULT 'admin',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 7. Outgoing Email Logs Table (Resend Audit & Outbox)
+CREATE TABLE IF NOT EXISTS email_logs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    recipient VARCHAR(255) NOT NULL,
+    subject VARCHAR(255) NOT NULL,
+    body_html TEXT,
+    body_text TEXT,
+    sender VARCHAR(150) NOT NULL,
+    status VARCHAR(30) DEFAULT 'sent',
+    resend_id VARCHAR(100),
+    error_message TEXT,
+    sent_by VARCHAR(60),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Indexes for Fast Query Performance
 CREATE INDEX IF NOT EXISTS idx_appointments_ref ON appointments(ref);
 CREATE INDEX IF NOT EXISTS idx_appointments_status ON appointments(status);
 CREATE INDEX IF NOT EXISTS idx_patients_card ON patients(card_number);
 CREATE INDEX IF NOT EXISTS idx_messages_read ON messages(is_read);
+CREATE INDEX IF NOT EXISTS idx_email_logs_status ON email_logs(status);
+CREATE INDEX IF NOT EXISTS idx_email_logs_created ON email_logs(created_at);
 
 -- ========================================================
 -- Seed Data / Demonstration Records
