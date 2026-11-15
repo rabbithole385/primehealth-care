@@ -84,7 +84,24 @@ if ($mailAuthed && $_SERVER['REQUEST_METHOD'] === 'POST' && csrf_check()) {
         }
     }
 
-    // 2. Diagnostic Live Test Email
+    // 2. Save / Update Resend API Key
+    if ($act === 'save_api_key') {
+        $newKey = trim((string)($_POST['resend_api_key'] ?? ''));
+        if ($newKey !== '') {
+            $st = $pdo->prepare("SELECT COUNT(*) FROM site_settings WHERE key_name = 'resend_api_key'");
+            $st->execute();
+            if ((int)$st->fetchColumn() > 0) {
+                $pdo->prepare("UPDATE site_settings SET val = ?, updated_at = CURRENT_TIMESTAMP WHERE key_name = 'resend_api_key'")->execute([$newKey]);
+            } else {
+                $pdo->prepare("INSERT INTO site_settings (key_name, val) VALUES ('resend_api_key', ?)")->execute([$newKey]);
+            }
+            flash('success', 'Resend API key has been successfully updated.');
+        }
+        header("Location: ?view=settings");
+        exit;
+    }
+
+    // 3. Diagnostic Live Test Email
     if ($act === 'test_diagnostic') {
         $testTo = clean('test_to', 120) ?: SITE_EMAIL;
         $testSubject = 'PrimeCare Mail Diagnostic Verification — ' . date('Y-m-d H:i');
@@ -208,7 +225,7 @@ if ($mailAuthed) {
 
         <h1 style="font-size:1.4rem;font-weight:700;margin:0 0 6px;text-align:center;">Mailing Portal Login</h1>
         <p style="font-size:0.86rem;color:var(--mail-muted);margin:0 0 20px;text-align:center;">
-          Sign in to dispatch and manage communications via <strong>support@primecarehealthsolutions.online</strong>
+          Sign in to dispatch and manage communications via <strong>info@primecarehealthsolutions.online</strong>
         </p>
 
         <?php if ($error): ?>
@@ -217,7 +234,7 @@ if ($mailAuthed) {
 
         <div class="form-group">
           <label for="idnt">Username or Mail Address</label>
-          <input class="form-control" id="idnt" name="identifier" required placeholder="support" value="support" autofocus autocomplete="username">
+          <input class="form-control" id="idnt" name="identifier" required placeholder="info" value="info" autofocus autocomplete="username">
         </div>
 
         <div class="form-group">
@@ -641,6 +658,24 @@ if ($mailAuthed) {
                 <span>EU-West-1 (Ireland)</span>
               </div>
             </div>
+
+            <hr style="border:none;border-top:1px solid var(--mail-border);margin:20px 0;">
+
+            <h3>Update Resend API Key</h3>
+            <p style="font-size:0.86rem;color:var(--mail-muted);margin:0 0 14px;">
+              Enter or update your Resend API key (starts with <code>re_...</code>) to instantly apply it across the mailing portal.
+            </p>
+            <form method="post" action="<?= $self ?>" style="margin-bottom:20px;">
+              <?= csrf_field() ?>
+              <input type="hidden" name="action" value="save_api_key">
+              <div class="form-group">
+                <label for="resend_api_key">API Key</label>
+                <input class="form-control" id="resend_api_key" name="resend_api_key" type="password" required placeholder="re_..." value="<?= e(get_resend_api_key()) ?>">
+              </div>
+              <button type="submit" class="btn-mail btn-mail-primary">
+                <?= icon('check', 16) ?> Save Resend API Key
+              </button>
+            </form>
 
             <hr style="border:none;border-top:1px solid var(--mail-border);margin:20px 0;">
 

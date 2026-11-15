@@ -29,7 +29,7 @@ define('SITE_EMAIL', env('SITE_EMAIL', 'info@primecarehealthsolutions.online'));
  * Default: "resend" if RESEND_API_KEY is set, "mail" on normal hosting, otherwise "none". */
 $resendFallback = base64_decode('cmVfTWZqRXY5Z1RfNEJNUW8zMnBvNHZKaHB3WDdIY3dQZjZk');
 define('RESEND_API_KEY', env('RESEND_API_KEY', $resendFallback));
-define('MAIL_FROM', env('MAIL_FROM', 'support@primecarehealthsolutions.online'));
+define('MAIL_FROM', env('MAIL_FROM', 'info@primecarehealthsolutions.online'));
 define('MAIL_DRIVER', env('MAIL_DRIVER', 'resend'));
 
 /* Database: on Railway, mount a Volume and set DATA_DIR to its mount path (default /data in the Docker image) */
